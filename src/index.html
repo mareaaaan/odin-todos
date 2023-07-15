@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,34 @@
     <link rel="stylesheet" href="style.css">
     <script type="module" src="index.js" defer></script>
 </head>
+
 <body>
-    <header><h1>Todos</h1></header>
+    <header class="title">
+        <h1>Todos</h1>
+    </header>
+    <ul class="sidebar">
+            <li class="project" data-index="1">University</li>
+            <li class="project" data-index="1">Reading</li>
+            <li class="project" data-index="1">Job</li>
+            <li class="project" data-index="1">Fitness</li>
+    </ul>
+    <article class="content">
+        <section class="todo-card">
+            <h2 class="todo-card__title">Data structures assignment</h2>
+            <h3 class="todo-card__due-date">Monday 17th July, 10:30</h3>
+            <button type="button" class="todo-card__button todo-card__button--pending">Pending</button>
+        </section>
+        <section class="todo-card">
+            <h2 class="todo-card__title">Watch PPA lectures</h2>
+            <h3 class="todo-card__due-date">Wednesday 19th July, 18:00</h3>
+            <button type="button" class="todo-card__button todo-card__button--pending">Pending</button>
+        </section>
+        <section class="todo-card">
+            <h2 class="todo-card__title">NSE coursework</h2>
+            <h3 class="todo-card__due-date">Tuesday 25th July, 14:00</h3>
+            <button type="button" class="todo-card__button todo-card__button--completed">Completed</button>
+        </section>
+    </article>
 </body>
+
 </html>
