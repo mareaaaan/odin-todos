@@ -6,6 +6,14 @@ export class Project {
 		this.#title = title;
 	}
 
+	set title(newTitle) {
+		this.#title = newTitle;
+	}
+
+	get title() {
+		return this.#title;
+	}
+
 	addTodo(todo) {
 		this.#todos.push(todo);
 	}
@@ -14,11 +22,11 @@ export class Project {
 		return this.#todos;
 	}
 
-	set title(newTitle) {
-		this.#title = newTitle;
+    getTodo(index) {
+		return this.#todos[index];
 	}
 
-	get title() {
-		return this.#title;
+    getTodoNumber() {
+		return this.#todos.length;
 	}
 }
