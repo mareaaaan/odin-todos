@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todos</title>
-    <link rel="stylesheet" href="./styles/reset.css">
-    <link rel="stylesheet" href="./styles/index.css">
-    <script type="module" src="scripts/index.js" defer></script>
 </head>
 
 <body>
@@ -15,10 +12,10 @@
         <h1>Todos</h1>
     </header>
     <ul class="sidebar">
-            <li class="project" data-index="1">University</li>
-            <li class="project" data-index="1">Reading</li>
-            <li class="project" data-index="1">Job</li>
-            <li class="project" data-index="1">Fitness</li>
+        <!-- <li class="project" data-index="1">University</li>
+        <li class="project" data-index="1">Reading</li>
+        <li class="project" data-index="1">Job</li>
+        <li class="project" data-index="1">Fitness</li> -->
     </ul>
     <article class="content">
         <section class="todo-card">
@@ -37,6 +34,17 @@
             <button type="button" class="todo-card__button todo-card__button--completed">Completed</button>
         </section>
     </article>
+    <template class="todo-card--template">
+        <section class="todo-card">
+            <h2 class="todo-card__title"></h2>
+            <h3 class="todo-card__due-date"></h3>
+            <button type="button" class="todo-card__button todo-card__button--pending"></button>
+        </section>
+    </template>
+
+    <template class="project--template">
+        <li class="project" data-index=""></li>
+    </template>
 </body>
 
 </html>
