@@ -47,6 +47,7 @@ var TodoController = (function () {
 
 var DisplayController = (function () {
 	const sidebarElement = document.getElementsByClassName("sidebar")[0];
+	const contentElement = document.getElementsByClassName("content")[0];
 	const todoCardTemplate = document.getElementsByClassName(
 		"todo-card--template"
 	)[0];
@@ -57,6 +58,7 @@ var DisplayController = (function () {
 
 	function render() {
 		renderProjects();
+		renderTodos(0);
 	}
 
 	function renderProjects() {
@@ -64,6 +66,14 @@ var DisplayController = (function () {
 		var projects = TodoController.getProjects();
 		for (let index = 0; index < projects.length; index++) {
 			renderProject(projects[index], index);
+		}
+	}
+
+	function renderTodos(projectIndex) {
+		contentElement.textContent = "";
+		var todos = TodoController.getProjects()[projectIndex].todos;
+		for (let index = 0; index < todos.length; index++) {
+			renderTodo(todos[index], index);
 		}
 	}
 
@@ -75,8 +85,13 @@ var DisplayController = (function () {
 		projectELement.setAttribute("data-index", projectIndex.toString());
 	}
 
-	function renderTodo(todo) {
-		
+	function renderTodo(todo, todoIndex) {
+		const todoCardNode = document.importNode(todoCardTemplate.content, true);
+		contentElement.appendChild(todoCardNode);
+		const todoCardELement =  contentElement.getElementsByClassName("todo-card")[todoIndex];
+		todoCardELement.getElementsByClassName("todo-card__title")[0].textContent = todo.title;
+		todoCardELement.getElementsByClassName("todo-card__due-date")[0].textContent = todo.dueDate;
+
 	}
 
 	return { render };
