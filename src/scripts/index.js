@@ -27,7 +27,7 @@ var TodoController = (function () {
 	}
 
 	function getTodoFromProject(projectIndex, todoIndex) {
-		return getProject(index).getTodo(todoIndex);
+		return getProject(projectIndex).getTodo(todoIndex);
 	}
 
 	function addTodoToProject(projectIndex, todo) {
@@ -45,62 +45,20 @@ var TodoController = (function () {
 	};
 })();
 
-var DisplayController = (function () {
-	const sidebarElement = document.getElementsByClassName("sidebar")[0];
-	const contentElement = document.getElementsByClassName("content")[0];
-	const todoCardTemplate = document.getElementsByClassName(
-		"todo-card--template"
-	)[0];
-	const projectTemplate =
-		document.getElementsByClassName("project--template")[0];
-
-	PubSub.subscribe("STATE_CHANGE", render);
-
-	function render() {
-		renderProjects();
-		renderTodos(0);
-	}
-
-	function renderProjects() {
-		sidebarElement.textContent = "";
-		var projects = TodoController.getProjects();
-		for (let index = 0; index < projects.length; index++) {
-			renderProject(projects[index], index);
-		}
-	}
-
-	function renderTodos(projectIndex) {
-		contentElement.textContent = "";
-		var todos = TodoController.getProjects()[projectIndex].todos;
-		for (let index = 0; index < todos.length; index++) {
-			renderTodo(todos[index], index);
-		}
-	}
-
-	function renderProject(project, projectIndex) {
-		const projectNode = document.importNode(projectTemplate.content, true);
-		sidebarElement.appendChild(projectNode);
-		const projectELement =  sidebarElement.getElementsByClassName("project")[projectIndex];
-		projectELement.textContent = project.title;
-		projectELement.setAttribute("data-index", projectIndex.toString());
-	}
-
-	function renderTodo(todo, todoIndex) {
-		const todoCardNode = document.importNode(todoCardTemplate.content, true);
-		contentElement.appendChild(todoCardNode);
-		const todoCardELement =  contentElement.getElementsByClassName("todo-card")[todoIndex];
-		todoCardELement.getElementsByClassName("todo-card__title")[0].textContent = todo.title;
-		todoCardELement.getElementsByClassName("todo-card__due-date")[0].textContent = todo.dueDate;
-
-	}
-
-	return { render };
-})();
-
 TodoController.addProject("University");
 TodoController.addProject("Books");
 TodoController.addProject("Job");
 TodoController.addProject("Fitness");
+
+TodoController.addTodoToProject(
+	1,
+	new Todo(
+		"Read History of Economics",
+		"Finish reding history of economics",
+		new Date("July 20, 2023 10:30:00"),
+		"high"
+	)
+);
 
 TodoController.addTodoToProject(
 	0,
@@ -132,4 +90,98 @@ TodoController.addTodoToProject(
 	)
 );
 
-// DisplayController.render();
+var DisplayController = (function () {
+	var selectedProjectIndex = 0;
+	const sidebarElement = document.getElementsByClassName("sidebar")[0];
+	const contentElement = document.getElementsByClassName("content")[0];
+	const todoCardTemplate = document.getElementsByClassName(
+		"todo-card--template"
+	)[0];
+	const projectTemplate =
+		document.getElementsByClassName("project--template")[0];
+
+	PubSub.subscribe("STATE_CHANGE", render);
+
+	function render() {
+		renderProjects();
+		renderTodos(selectedProjectIndex);
+		bindEvents();
+	}
+
+	function renderProjects() {
+		sidebarElement.textContent = "";
+		var projects = TodoController.getProjects();
+		for (let index = 0; index < projects.length; index++) {
+			renderProject(projects[index], index);
+		}
+	}
+
+	function renderTodos(projectIndex) {
+		contentElement.textContent = "";
+		var todos = TodoController.getProjects()[projectIndex].todos;
+		for (let index = 0; index < todos.length; index++) {
+			renderTodo(todos[index], index);
+		}
+	}
+
+	function renderProject(project, projectIndex) {
+		const projectNode = document.importNode(projectTemplate.content, true);
+		sidebarElement.appendChild(projectNode);
+		const projectELement =
+			sidebarElement.getElementsByClassName("project")[projectIndex];
+		projectELement.textContent = project.title;
+		projectELement.setAttribute("data-index", projectIndex.toString());
+		if (projectIndex == selectedProjectIndex) {
+			projectELement.classList.add("project--selected");
+		}
+	}
+
+	function renderTodo(todo, todoIndex) {
+		const todoCardNode = document.importNode(
+			todoCardTemplate.content,
+			true
+		);
+		contentElement.appendChild(todoCardNode);
+		const todoCardELement =
+			contentElement.getElementsByClassName("todo-card")[todoIndex];
+		todoCardELement.getElementsByClassName(
+			"todo-card__title"
+		)[0].textContent = todo.title;
+		todoCardELement.getElementsByClassName(
+			"todo-card__due-date"
+		)[0].textContent = todo.dueDate;
+
+		todoCardELement.getElementsByClassName(
+			"todo-card__button"
+		)[0].textContent = todo.isCompleted ? "Completed" : "Pending";
+
+		todoCardELement
+			.getElementsByClassName("todo-card__button")[0]
+			.classList.add(
+				todo.isCompleted
+					? "todo-card__button--completed"
+					: "todo-card__button--pending"
+			);
+	}
+
+	function bindEvents() {
+		bindProjectEvents();
+	}
+
+	function bindProjectEvents() {
+		const projectElements =
+			sidebarElement.getElementsByClassName("project");
+		Array.from(projectElements).forEach(function (element) {
+			element.addEventListener("click", changeSelectedElement);
+		});
+	}
+
+	function changeSelectedElement(event) {
+		selectedProjectIndex = event.srcElement.dataset.index;
+		render();
+	}
+
+	return { render };
+})();
+
+DisplayController.render();
