@@ -1,5 +1,7 @@
 import { Project } from "./project.js";
 import { Todo } from "./todo.js";
+import "../styles/reset.css";
+import "../styles/index.css";
 
 var TodoController = (function () {
 	var projects = [];
