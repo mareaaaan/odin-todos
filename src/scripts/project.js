@@ -29,4 +29,5 @@ export class Project {
     getTodoNumber() {
 		return this.#todos.length;
 	}
+	
 }

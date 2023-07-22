@@ -51,4 +51,8 @@ export class Todo {
     get priority(){
         return this.#priority;
     }
+
+    toggleIsDone(){
+        this.#isCompleted = !this.#isCompleted;
+    }
 }

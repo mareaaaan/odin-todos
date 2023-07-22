@@ -30,6 +30,10 @@ var TodoController = (function () {
 		return getProject(projectIndex).getTodo(todoIndex);
 	}
 
+	function toggleIsDoneTodo(projectIndex, todoIndex) {
+		getProject(projectIndex).getTodo(todoIndex).toggleIsDone();
+	}
+
 	function addTodoToProject(projectIndex, todo) {
 		getProject(projectIndex).addTodo(todo);
 		PubSub.publish("STATE_CHANGE", "");
@@ -42,6 +46,7 @@ var TodoController = (function () {
 		getProject,
 		getTodoFromProject,
 		addTodoToProject,
+		toggleIsDoneTodo,
 	};
 })();
 
@@ -142,8 +147,11 @@ var DisplayController = (function () {
 			true
 		);
 		contentElement.appendChild(todoCardNode);
+
 		const todoCardELement =
 			contentElement.getElementsByClassName("todo-card")[todoIndex];
+
+			todoCardELement.setAttribute("data-index", todoIndex.toString());
 		todoCardELement.getElementsByClassName(
 			"todo-card__title"
 		)[0].textContent = todo.title;
@@ -166,6 +174,7 @@ var DisplayController = (function () {
 
 	function bindEvents() {
 		bindProjectEvents();
+		bindTodoEvents();
 	}
 
 	function bindProjectEvents() {
@@ -176,8 +185,25 @@ var DisplayController = (function () {
 		});
 	}
 
+	function bindTodoEvents() {
+		const todoButtons =
+			contentElement.getElementsByClassName("todo-card__button");
+		Array.from(todoButtons).forEach(function (element) {
+			element.addEventListener("click", changeIsDoneTodo);
+		});
+	}
+
 	function changeSelectedElement(event) {
 		selectedProjectIndex = event.srcElement.dataset.index;
+		render();
+	}
+
+	function changeIsDoneTodo(event) {
+		var selectedTodoIndex = event.srcElement.parentElement.dataset.index;
+		TodoController.toggleIsDoneTodo(
+			selectedProjectIndex,
+			selectedTodoIndex
+		);
 		render();
 	}
 
