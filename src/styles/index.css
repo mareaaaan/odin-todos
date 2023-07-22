@@ -60,6 +60,12 @@ body {
     border-radius: 10px;
     -webkit-box-shadow: 4px 5px 5px 0px #0000009c; 
     box-shadow: 4px 5px 5px 0px #0000009c;
+    cursor: pointer;
+}
+
+.todo-card:hover {
+    -webkit-box-shadow: 4px 5px 14px 0px #0000009c; 
+    box-shadow: 4px 5px 14px 0px #0000009c;
 }
 
 .todo-card__title {
@@ -99,6 +105,7 @@ body {
 
 .project {
   transition: transform .2s; 
+  cursor: pointer;
 }
 
 .project:hover {
