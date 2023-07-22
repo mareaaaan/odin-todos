@@ -32,6 +32,7 @@ var TodoController = (function () {
 
 	function toggleIsDoneTodo(projectIndex, todoIndex) {
 		getProject(projectIndex).getTodo(todoIndex).toggleIsDone();
+		PubSub.publish("STATE_CHANGE", "");
 	}
 
 	function addTodoToProject(projectIndex, todo) {
@@ -104,12 +105,15 @@ var DisplayController = (function () {
 	)[0];
 	const projectTemplate =
 		document.getElementsByClassName("project--template")[0];
+	const addButtonTemplate = document.getElementsByClassName(
+		"add-button--template"
+	)[0];
 
 	PubSub.subscribe("STATE_CHANGE", render);
 
 	function render() {
 		renderProjects();
-		renderTodos(selectedProjectIndex);
+		renderContent();
 		bindEvents();
 	}
 
@@ -121,12 +125,25 @@ var DisplayController = (function () {
 		}
 	}
 
+	function renderContent() {
+		renderTodos(selectedProjectIndex);
+		renderAddButton();
+	}
+
 	function renderTodos(projectIndex) {
 		contentElement.textContent = "";
 		var todos = TodoController.getProjects()[projectIndex].todos;
 		for (let index = 0; index < todos.length; index++) {
 			renderTodo(todos[index], index);
 		}
+	}
+
+	function renderAddButton() {
+		const addButtonNode = document.importNode(
+			addButtonTemplate.content,
+			true
+		);
+		contentElement.appendChild(addButtonNode);
 	}
 
 	function renderProject(project, projectIndex) {
@@ -151,7 +168,7 @@ var DisplayController = (function () {
 		const todoCardELement =
 			contentElement.getElementsByClassName("todo-card")[todoIndex];
 
-			todoCardELement.setAttribute("data-index", todoIndex.toString());
+		todoCardELement.setAttribute("data-index", todoIndex.toString());
 		todoCardELement.getElementsByClassName(
 			"todo-card__title"
 		)[0].textContent = todo.title;
@@ -175,6 +192,7 @@ var DisplayController = (function () {
 	function bindEvents() {
 		bindProjectEvents();
 		bindTodoEvents();
+		bindAddButtonEvents();
 	}
 
 	function bindProjectEvents() {
@@ -193,6 +211,16 @@ var DisplayController = (function () {
 		});
 	}
 
+	function bindAddButtonEvents() {
+		const addButton =
+			contentElement.getElementsByClassName("add-button")[0];
+		addButton.addEventListener("click", addNewTodo);
+	}
+
+	function addNewTodo() {
+		console.log("Add new todo!");
+	} 
+
 	function changeSelectedElement(event) {
 		selectedProjectIndex = event.srcElement.dataset.index;
 		render();
@@ -204,7 +232,6 @@ var DisplayController = (function () {
 			selectedProjectIndex,
 			selectedTodoIndex
 		);
-		render();
 	}
 
 	return { render };
