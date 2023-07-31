@@ -99,6 +99,7 @@ TodoController.addTodoToProject(
 var DisplayController = (function () {
 	var selectedProjectIndex = 0;
 
+	const bodyElement = document.body;
 	const blurElement = document.getElementsByClassName("layer")[0];
 	const sidebarElement = document.getElementsByClassName("sidebar")[0];
 	const contentElement = document.getElementsByClassName("content")[0];
@@ -110,6 +111,8 @@ var DisplayController = (function () {
 	const addButtonTemplate = document.getElementsByClassName(
 		"add-button--template"
 	)[0];
+	const addTodoDialogTemplate =
+		document.getElementsByClassName("add-todo--template")[0];
 
 	PubSub.subscribe("STATE_CHANGE", render);
 
@@ -226,10 +229,36 @@ var DisplayController = (function () {
 
 	function openAddNewTodoDialog() {
 		blurScreen();
-	} 
+		renderAddNewTodoDialog();
+		bindAddNewTodoDialogEvents();
+	}
+
+	function renderAddNewTodoDialog() {
+		const addNewTodoDialogNode = document.importNode(
+			addTodoDialogTemplate.content,
+			true
+		);
+		bodyElement.appendChild(addNewTodoDialogNode);
+	}
+
+	function bindAddNewTodoDialogEvents() {
+		const closeButton =
+		bodyElement.getElementsByClassName("close-dialog-button")[0];
+			closeButton.addEventListener("click", closeAddNewTodoDialog);
+	}
+
+	function closeAddNewTodoDialog() {
+		const addNewTodoDialogNode = bodyElement.getElementsByClassName("add-todo-dialog")[0];
+		addNewTodoDialogNode.remove();
+		unblurScreen();
+	}
 
 	function blurScreen() {
 		blurElement.classList.add("blur");
+	}
+
+	function unblurScreen() {
+		blurElement.classList.remove("blur");
 	}
 
 	function changeSelectedElement(event) {

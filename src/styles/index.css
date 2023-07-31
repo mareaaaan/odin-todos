@@ -103,6 +103,14 @@ body {
 	background-color: #3a8a3a;
 }
 
+.button {
+	width: 70%;
+	font-size: 20px;
+	padding: 10px;
+	border-radius: 10px;
+	border: 0px;
+}
+
 .add-button {
 	height: 200px;
 	filter: drop-shadow(3px 5px 5px #00000066);
@@ -130,8 +138,57 @@ body {
 }
 
 .blur {
-    position: absolute;
+	position: absolute;
 	height: 100%;
 	width: 100%;
-    background-color: rgb(0, 0, 0,.6);
+	background-color: rgb(0, 0, 0, 0.6);
+}
+
+.add-todo-dialog {
+	position: absolute;
+	align-self: center;
+	justify-self: center;
+	background-color: #ffffff;
+	padding: 10px;
+	border-radius: 10px;
+	width: clamp(300px, 40%, 400px);
+	display: flex;
+	flex-direction: column;
+}
+
+.label-input-pair {
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+	gap: 5px;
+}
+
+input[type="text"],
+input[type="datetime-local"] {
+	border: #1a2374 solid 2px;
+	border-radius: 5px;
+}
+
+.add-todo__header {
+	display: flex;
+	flex-direction: row-reverse;
+	padding: 10px;
+}
+
+.add-todo__button {
+	align-self: center;
+	background-color: #58cc58;
+}
+
+.add-todo__button:hover {
+	background-color: #3a8a3a;
+}
+
+.close-dialog-button {
+	border-radius: 50%;
+	border: 0px;
+}
+
+.close-dialog-button:hover {
+	background-color: #858585;
 }
