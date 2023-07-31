@@ -98,6 +98,8 @@ TodoController.addTodoToProject(
 
 var DisplayController = (function () {
 	var selectedProjectIndex = 0;
+
+	const blurElement = document.getElementsByClassName("layer")[0];
 	const sidebarElement = document.getElementsByClassName("sidebar")[0];
 	const contentElement = document.getElementsByClassName("content")[0];
 	const todoCardTemplate = document.getElementsByClassName(
@@ -209,17 +211,26 @@ var DisplayController = (function () {
 		Array.from(todoButtons).forEach(function (element) {
 			element.addEventListener("click", changeIsDoneTodo);
 		});
+
+		const todoElements = contentElement.getElementsByClassName("todo-card");
+		// Array.from(todoElements).forEach(function (element) {
+		// 	element.addEventListener("click", changeIsDoneTodo);
+		// });
 	}
 
 	function bindAddButtonEvents() {
 		const addButton =
 			contentElement.getElementsByClassName("add-button")[0];
-		addButton.addEventListener("click", addNewTodo);
+		addButton.addEventListener("click", openAddNewTodoDialog);
 	}
 
-	function addNewTodo() {
-		console.log("Add new todo!");
+	function openAddNewTodoDialog() {
+		blurScreen();
 	} 
+
+	function blurScreen() {
+		blurElement.classList.add("blur");
+	}
 
 	function changeSelectedElement(event) {
 		selectedProjectIndex = event.srcElement.dataset.index;
