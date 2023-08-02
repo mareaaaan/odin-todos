@@ -53,22 +53,24 @@
 				<form class="add-todo__form">
 					<div class="label-input-pair">
 						<label for="todo-title">Title</label>
-						<input type="text" name="todo-title" id="todo-title" />
+						<input minlength="3" required="required" type="text" name="todo-title" id="todo-title" class="todo-title"/>
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-description">Description</label>
-						<input
+						<input minlength="3" required="required"
 							type="text"
 							name="todo-description"
 							id="todo-description"
+							class="todo-description"
 						/>
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-due-date">Due date</label>
-						<input
+						<input required="required"
 							type="datetime-local"
 							name="todo-due-date"
 							id="todo-due-date"
+							class="todo-due-date"
 						/>
 					</div>
 
@@ -80,15 +82,15 @@
 									type="radio"
 									id="low"
 									name="todo-priority"
-									value="email"
+									value="low"
 								/>
 								<label for="low">Low</label>
 
-								<input
+								<input checked
 									type="radio"
 									id="medium"
 									name="todo-priority"
-									value="phone"
+									value="medium"
 								/>
 								<label for="medium">Medium</label>
 
@@ -96,7 +98,7 @@
 									type="radio"
 									id="high"
 									name="todo-priority"
-									value="mail"
+									value="high"
 								/>
 								<label for="high">High</label>
 							</div>

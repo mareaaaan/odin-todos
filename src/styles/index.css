@@ -167,6 +167,8 @@ input[type="text"],
 input[type="datetime-local"] {
 	border: #1a2374 solid 2px;
 	border-radius: 5px;
+	padding: 10px;
+	font-size: 20px;
 }
 
 .add-todo__header {

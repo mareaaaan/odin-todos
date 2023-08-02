@@ -35,8 +35,16 @@ var TodoController = (function () {
 		PubSub.publish("STATE_CHANGE", "");
 	}
 
-	function addTodoToProject(projectIndex, todo) {
-		getProject(projectIndex).addTodo(todo);
+	function addTodoToProject(
+		projectIndex,
+		title,
+		description,
+		dueDate,
+		priority
+	) {
+		getProject(projectIndex).addTodo(
+			new Todo(title, description, dueDate, priority)
+		);
 		PubSub.publish("STATE_CHANGE", "");
 	}
 
@@ -58,42 +66,34 @@ TodoController.addProject("Fitness");
 
 TodoController.addTodoToProject(
 	1,
-	new Todo(
-		"Read History of Economics",
-		"Finish reding history of economics",
-		new Date("July 20, 2023 10:30:00"),
-		"high"
-	)
+	"Read History of Economics",
+	"Finish reding history of economics",
+	new Date("July 20, 2023 10:30:00"),
+	"high"
 );
 
 TodoController.addTodoToProject(
 	0,
-	new Todo(
-		"Data structures assignment",
-		"Finish data structures assignment",
-		new Date("July 17, 2023 10:30:00"),
-		"high"
-	)
+	"Data structures assignment",
+	"Finish data structures assignment",
+	new Date("July 17, 2023 10:30:00"),
+	"high"
 );
 
 TodoController.addTodoToProject(
 	0,
-	new Todo(
-		"Watch PPA lectures",
-		"Watch PPA lectures",
-		new Date("July 19, 2023 18:00:00"),
-		"medium"
-	)
+	"Watch PPA lectures",
+	"Watch PPA lectures",
+	new Date("July 19, 2023 18:00:00"),
+	"medium"
 );
 
 TodoController.addTodoToProject(
 	0,
-	new Todo(
-		"NSE coursework",
-		"Finish NSE coursework",
-		new Date("July 25, 2023 14:00:00"),
-		"high"
-	)
+	"NSE coursework",
+	"Finish NSE coursework",
+	new Date("July 25, 2023 14:00:00"),
+	"high"
 );
 
 var DisplayController = (function () {
@@ -242,13 +242,23 @@ var DisplayController = (function () {
 	}
 
 	function bindAddNewTodoDialogEvents() {
-		const closeButton =
-		bodyElement.getElementsByClassName("close-dialog-button")[0];
-			closeButton.addEventListener("click", closeAddNewTodoDialog);
+		const closeButton = bodyElement.getElementsByClassName(
+			"close-dialog-button"
+		)[0];
+		closeButton.addEventListener("click", closeAddNewTodoDialog);
+
+		const addButton =
+			bodyElement.getElementsByClassName("add-todo__button")[0];
+
+		addButton.addEventListener("click", () => {
+			addNewTodo();
+			closeAddNewTodoDialog();
+		});
 	}
 
 	function closeAddNewTodoDialog() {
-		const addNewTodoDialogNode = bodyElement.getElementsByClassName("add-todo-dialog")[0];
+		const addNewTodoDialogNode =
+			bodyElement.getElementsByClassName("add-todo-dialog")[0];
 		addNewTodoDialogNode.remove();
 		unblurScreen();
 	}
@@ -259,6 +269,25 @@ var DisplayController = (function () {
 
 	function unblurScreen() {
 		blurElement.classList.remove("blur");
+	}
+
+	function addNewTodo() {
+		const todoTitle =
+			bodyElement.getElementsByClassName("todo-title")[0].value;
+		const todoDescription =
+			bodyElement.getElementsByClassName("todo-description")[0].value;
+		const todoDueDate =
+			bodyElement.getElementsByClassName("todo-due-date")[0].value;
+		const todoPriority = document.querySelector(
+			'input[name="todo-priority"]:checked'
+		).value;
+		TodoController.addTodoToProject(
+			selectedProjectIndex,
+			todoTitle,
+			todoDescription,
+			new Date(todoDueDate),
+			todoPriority
+		);
 	}
 
 	function changeSelectedElement(event) {
