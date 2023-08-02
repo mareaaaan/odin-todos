@@ -111,6 +111,74 @@
 			</div>
 		</template>
 
+		<template class="edit-todo--template">
+			<div class="add-todo-dialog">
+				<div class="add-todo__header">
+					<button class="close-dialog-button">
+						x
+					</button>
+				</div>
+				<form class="add-todo__form">
+					<div class="label-input-pair">
+						<label for="todo-title">Title</label>
+						<input minlength="3" required="required" type="text" name="todo-title" id="todo-title" class="todo-title"/>
+					</div>
+					<div class="label-input-pair">
+						<label for="todo-description">Description</label>
+						<input minlength="3" required="required"
+							type="text"
+							name="todo-description"
+							id="todo-description"
+							class="todo-description"
+						/>
+					</div>
+					<div class="label-input-pair">
+						<label for="todo-due-date">Due date</label>
+						<input required="required"
+							type="datetime-local"
+							name="todo-due-date"
+							id="todo-due-date"
+							class="todo-due-date"
+						/>
+					</div>
+
+					<fieldset>
+						<div class="label-input-pair">
+							<label>Priority</label>
+							<div class="radio-buttons">
+								<input
+									type="radio"
+									id="low"
+									name="todo-priority"
+									value="low"
+								/>
+								<label for="low">Low</label>
+
+								<input
+									type="radio"
+									id="medium"
+									name="todo-priority"
+									value="medium"
+								/>
+								<label for="medium">Medium</label>
+
+								<input
+									type="radio"
+									id="high"
+									name="todo-priority"
+									value="high"
+								/>
+								<label for="high">High</label>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<button type="button" class="button submit-todo__button">
+					Submit
+				</button>
+			</div>
+		</template>
+
 		<div class="layer"></div>
 	</body>
 </html>

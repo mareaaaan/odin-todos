@@ -113,6 +113,9 @@ var DisplayController = (function () {
 	)[0];
 	const addTodoDialogTemplate =
 		document.getElementsByClassName("add-todo--template")[0];
+	const editTodoDialogTemplate = document.getElementsByClassName(
+		"edit-todo--template"
+	)[0];
 
 	PubSub.subscribe("STATE_CHANGE", render);
 
@@ -194,6 +197,39 @@ var DisplayController = (function () {
 			);
 	}
 
+	function renderAddNewTodoDialog() {
+		const addNewTodoDialogNode = document.importNode(
+			addTodoDialogTemplate.content,
+			true
+		);
+		bodyElement.appendChild(addNewTodoDialogNode);
+	}
+
+	function renderEditTodoDialog(todoIndex) {
+		const editTodoDialogNode = document.importNode(
+			editTodoDialogTemplate.content,
+			true
+		);
+		bodyElement.appendChild(editTodoDialogNode);
+
+		const editTodoDialogELement =
+			bodyElement.getElementsByClassName("add-todo-dialog")[0];
+
+		const todoTitleElement =
+			editTodoDialogELement.getElementsByClassName("todo-title")[0];
+		const todoDescriptionElement =
+			editTodoDialogELement.getElementsByClassName("todo-description")[0];
+		const todoDueDateElement =
+			editTodoDialogELement.getElementsByClassName("todo-due-date")[0];
+		const selectedTodo = TodoController.getTodoFromProject(
+			selectedProjectIndex,
+			todoIndex
+		);
+		todoTitleElement.value = selectedTodo.title;
+		todoDescriptionElement.value = selectedTodo.description;
+		todoDueDateElement.value = selectedTodo.dueDate.toString();
+	}
+
 	function bindEvents() {
 		bindProjectEvents();
 		bindTodoEvents();
@@ -216,29 +252,15 @@ var DisplayController = (function () {
 		});
 
 		const todoElements = contentElement.getElementsByClassName("todo-card");
-		// Array.from(todoElements).forEach(function (element) {
-		// 	element.addEventListener("click", changeIsDoneTodo);
-		// });
+		Array.from(todoElements).forEach(function (element) {
+			element.addEventListener("click", openEditTodoDialog);
+		});
 	}
 
 	function bindAddButtonEvents() {
 		const addButton =
 			contentElement.getElementsByClassName("add-button")[0];
 		addButton.addEventListener("click", openAddNewTodoDialog);
-	}
-
-	function openAddNewTodoDialog() {
-		blurScreen();
-		renderAddNewTodoDialog();
-		bindAddNewTodoDialogEvents();
-	}
-
-	function renderAddNewTodoDialog() {
-		const addNewTodoDialogNode = document.importNode(
-			addTodoDialogTemplate.content,
-			true
-		);
-		bodyElement.appendChild(addNewTodoDialogNode);
 	}
 
 	function bindAddNewTodoDialogEvents() {
@@ -256,10 +278,45 @@ var DisplayController = (function () {
 		});
 	}
 
+	function bindEditTodoDialogEvents() {
+		const closeButton = bodyElement.getElementsByClassName(
+			"close-dialog-button"
+		)[0];
+		closeButton.addEventListener("click", closeEditTodoDialog);
+
+		const submitButton = bodyElement.getElementsByClassName(
+			"submit-todo__button"
+		)[0];
+
+		submitButton.addEventListener("click", () => {
+			closeAddNewTodoDialog();
+		});
+	}
+
+	function openAddNewTodoDialog() {
+		blurScreen();
+		renderAddNewTodoDialog();
+		bindAddNewTodoDialogEvents();
+	}
+
+	function openEditTodoDialog(event) {
+		const todoIndex = event.srcElement.dataset.index;
+		blurScreen();
+		renderEditTodoDialog(todoIndex);
+		bindEditTodoDialogEvents(todoIndex);
+	}
+
 	function closeAddNewTodoDialog() {
 		const addNewTodoDialogNode =
 			bodyElement.getElementsByClassName("add-todo-dialog")[0];
 		addNewTodoDialogNode.remove();
+		unblurScreen();
+	}
+
+	function closeEditTodoDialog() {
+		const editTodoDialogNode =
+			bodyElement.getElementsByClassName("add-todo-dialog")[0];
+		editTodoDialogNode.remove();
 		unblurScreen();
 	}
 
