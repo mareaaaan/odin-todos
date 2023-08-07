@@ -46,18 +46,25 @@
 		<template class="add-todo--template">
 			<div class="add-todo-dialog">
 				<div class="add-todo__header">
-					<button class="close-dialog-button">
-						x
-					</button>
+					<button class="close-dialog-button">x</button>
 				</div>
 				<form class="add-todo__form">
 					<div class="label-input-pair">
 						<label for="todo-title">Title</label>
-						<input minlength="3" required="required" type="text" name="todo-title" id="todo-title" class="todo-title"/>
+						<input
+							minlength="3"
+							required="required"
+							type="text"
+							name="todo-title"
+							id="todo-title"
+							class="todo-title"
+						/>
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-description">Description</label>
-						<input minlength="3" required="required"
+						<input
+							minlength="3"
+							required="required"
 							type="text"
 							name="todo-description"
 							id="todo-description"
@@ -66,7 +73,8 @@
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-due-date">Due date</label>
-						<input required="required"
+						<input
+							required="required"
 							type="datetime-local"
 							name="todo-due-date"
 							id="todo-due-date"
@@ -86,7 +94,8 @@
 								/>
 								<label for="low">Low</label>
 
-								<input checked
+								<input
+									checked
 									type="radio"
 									id="medium"
 									name="todo-priority"
@@ -114,18 +123,25 @@
 		<template class="edit-todo--template">
 			<div class="add-todo-dialog">
 				<div class="add-todo__header">
-					<button class="close-dialog-button">
-						x
-					</button>
+					<button class="close-dialog-button">x</button>
 				</div>
 				<form class="add-todo__form">
 					<div class="label-input-pair">
 						<label for="todo-title">Title</label>
-						<input minlength="3" required="required" type="text" name="todo-title" id="todo-title" class="todo-title"/>
+						<input
+							minlength="3"
+							required="required"
+							type="text"
+							name="todo-title"
+							id="todo-title"
+							class="todo-title"
+						/>
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-description">Description</label>
-						<input minlength="3" required="required"
+						<input
+							minlength="3"
+							required="required"
 							type="text"
 							name="todo-description"
 							id="todo-description"
@@ -134,7 +150,8 @@
 					</div>
 					<div class="label-input-pair">
 						<label for="todo-due-date">Due date</label>
-						<input required="required"
+						<input
+							required="required"
 							type="datetime-local"
 							name="todo-due-date"
 							id="todo-due-date"
@@ -149,6 +166,7 @@
 								<input
 									type="radio"
 									id="low"
+									class="todo-priority"
 									name="todo-priority"
 									value="low"
 								/>
@@ -157,6 +175,7 @@
 								<input
 									type="radio"
 									id="medium"
+									class="todo-priority"
 									name="todo-priority"
 									value="medium"
 								/>
@@ -165,6 +184,7 @@
 								<input
 									type="radio"
 									id="high"
+									class="todo-priority"
 									name="todo-priority"
 									value="high"
 								/>

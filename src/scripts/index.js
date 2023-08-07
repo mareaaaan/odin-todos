@@ -48,6 +48,23 @@ var TodoController = (function () {
 		PubSub.publish("STATE_CHANGE", "");
 	}
 
+	function updateTodo(
+		projectIndex,
+		todoIndex,
+		title,
+		description,
+		dueDate,
+		priority
+	) {
+		getTodoFromProject(projectIndex, todoIndex).update(
+			title,
+			description,
+			dueDate,
+			priority
+		);
+		PubSub.publish("STATE_CHANGE", "");
+	}
+
 	return {
 		getProjects,
 		addProject,
@@ -56,6 +73,7 @@ var TodoController = (function () {
 		getTodoFromProject,
 		addTodoToProject,
 		toggleIsDoneTodo,
+		updateTodo,
 	};
 })();
 
@@ -221,13 +239,34 @@ var DisplayController = (function () {
 			editTodoDialogELement.getElementsByClassName("todo-description")[0];
 		const todoDueDateElement =
 			editTodoDialogELement.getElementsByClassName("todo-due-date")[0];
+
+		const lowPriorityButtonElement =
+			editTodoDialogELement.getElementsByClassName("todo-priority")[0];
+		const mediumPriorityButtonElement =
+			editTodoDialogELement.getElementsByClassName("todo-priority")[1];
+		const highPriorityButtonElement =
+			editTodoDialogELement.getElementsByClassName("todo-priority")[2];
+
 		const selectedTodo = TodoController.getTodoFromProject(
 			selectedProjectIndex,
 			todoIndex
 		);
 		todoTitleElement.value = selectedTodo.title;
 		todoDescriptionElement.value = selectedTodo.description;
-		todoDueDateElement.value = selectedTodo.dueDate.toISOString().slice(0,-1);
+		todoDueDateElement.value = selectedTodo.dueDate
+			.toISOString()
+			.slice(0, -1);
+
+		console.log(TodoController.getProjects());
+		if (selectedTodo.priority == "low") {
+			lowPriorityButtonElement.checked = true;
+		}
+		if (selectedTodo.priority == "medium") {
+			mediumPriorityButtonElement.checked = true;
+		}
+		if (selectedTodo.priority == "high") {
+			highPriorityButtonElement.checked = true;
+		}
 	}
 
 	function bindEvents() {
@@ -278,7 +317,7 @@ var DisplayController = (function () {
 		});
 	}
 
-	function bindEditTodoDialogEvents() {
+	function bindEditTodoDialogEvents(todoIndex) {
 		const closeButton = bodyElement.getElementsByClassName(
 			"close-dialog-button"
 		)[0];
@@ -288,8 +327,10 @@ var DisplayController = (function () {
 			"submit-todo__button"
 		)[0];
 
-		submitButton.addEventListener("click", () => {
-			closeAddNewTodoDialog();
+		submitButton.addEventListener("click", (event) => {
+			console.log(todoIndex);
+			updateTodo(todoIndex);
+			closeEditTodoDialog();
 		});
 	}
 
@@ -318,6 +359,26 @@ var DisplayController = (function () {
 			bodyElement.getElementsByClassName("add-todo-dialog")[0];
 		editTodoDialogNode.remove();
 		unblurScreen();
+	}
+
+	function updateTodo(todoIndex) {
+		const todoTitle =
+			bodyElement.getElementsByClassName("todo-title")[0].value;
+		const todoDescription =
+			bodyElement.getElementsByClassName("todo-description")[0].value;
+		const todoDueDate =
+			bodyElement.getElementsByClassName("todo-due-date")[0].value;
+		const todoPriority = document.querySelector(
+			'input[name="todo-priority"]:checked'
+		).value;
+		TodoController.updateTodo(
+			selectedProjectIndex,
+			todoIndex,
+			todoTitle,
+			todoDescription,
+			todoDueDate,
+			todoPriority
+		);
 	}
 
 	function blurScreen() {
