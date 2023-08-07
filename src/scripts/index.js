@@ -227,7 +227,7 @@ var DisplayController = (function () {
 		);
 		todoTitleElement.value = selectedTodo.title;
 		todoDescriptionElement.value = selectedTodo.description;
-		todoDueDateElement.value = selectedTodo.dueDate.toString();
+		todoDueDateElement.value = selectedTodo.dueDate.toISOString().slice(0,-1);
 	}
 
 	function bindEvents() {
