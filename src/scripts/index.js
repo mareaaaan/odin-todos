@@ -86,7 +86,8 @@ TodoController.addTodoToProject(
 	1,
 	"Read History of Economics",
 	"Finish reding history of economics",
-	new Date("July 20, 2023 10:30:00"),
+	
+	new Date("2015-12-31T12:59"),
 	"high"
 );
 
@@ -94,7 +95,7 @@ TodoController.addTodoToProject(
 	0,
 	"Data structures assignment",
 	"Finish data structures assignment",
-	new Date("July 17, 2023 10:30:00"),
+	new Date("2015-12-31T12:59"),
 	"high"
 );
 
@@ -102,7 +103,7 @@ TodoController.addTodoToProject(
 	0,
 	"Watch PPA lectures",
 	"Watch PPA lectures",
-	new Date("July 19, 2023 18:00:00"),
+	new Date("2015-12-31T12:59"),
 	"medium"
 );
 
@@ -110,7 +111,7 @@ TodoController.addTodoToProject(
 	0,
 	"NSE coursework",
 	"Finish NSE coursework",
-	new Date("July 25, 2023 14:00:00"),
+	new Date("2015-12-31T12:59"),
 	"high"
 );
 
@@ -257,7 +258,6 @@ var DisplayController = (function () {
 			.toISOString()
 			.slice(0, -1);
 
-		console.log(TodoController.getProjects());
 		if (selectedTodo.priority == "low") {
 			lowPriorityButtonElement.checked = true;
 		}
@@ -295,7 +295,6 @@ var DisplayController = (function () {
 			element.addEventListener("click", openEditTodoDialog);
 		});
 	}
-
 	function bindAddButtonEvents() {
 		const addButton =
 			contentElement.getElementsByClassName("add-button")[0];
@@ -328,7 +327,6 @@ var DisplayController = (function () {
 		)[0];
 
 		submitButton.addEventListener("click", (event) => {
-			console.log(todoIndex);
 			updateTodo(todoIndex);
 			closeEditTodoDialog();
 		});
@@ -376,7 +374,7 @@ var DisplayController = (function () {
 			todoIndex,
 			todoTitle,
 			todoDescription,
-			todoDueDate,
+			new Date(todoDueDate),
 			todoPriority
 		);
 	}
