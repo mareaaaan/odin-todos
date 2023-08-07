@@ -300,7 +300,7 @@ var DisplayController = (function () {
 	}
 
 	function openEditTodoDialog(event) {
-		const todoIndex = event.srcElement.dataset.index;
+		const todoIndex = event.srcElement.closest(".todo-card").dataset.index;
 		blurScreen();
 		renderEditTodoDialog(todoIndex);
 		bindEditTodoDialogEvents(todoIndex);
