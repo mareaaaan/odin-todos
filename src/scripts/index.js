@@ -353,6 +353,7 @@ var DisplayController = (function () {
 	}
 
 	function changeIsDoneTodo(event) {
+		event.stopPropagation();
 		var selectedTodoIndex = event.srcElement.parentElement.dataset.index;
 		TodoController.toggleIsDoneTodo(
 			selectedProjectIndex,
